@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Daniela - 1 Mes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Lato', sans-serif;
+            background-color: #FDFBF7;
+            overflow: hidden;
+        }
+
+        .seccion-pantalla {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            z-index: 5;
+            transition: opacity 1s ease;
+            text-align: center;
+            padding: 40px;
+            box-sizing: border-box;
+            background-color: #FDFBF7;
+        }
+
+        .btn-estilo {
+            background-color: transparent;
+            color: #BD982B;
+            border: 2px solid #BD982B;
+            padding: 10px 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            font-family: 'Lato', sans-serif;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+        }
+
+        .btn-estilo:hover {
+            background-color: #BD982B;
+            color: #FDFBF7;
+        }
+
+        #fachada {
+            background: radial-gradient(circle, rgba(230,194,41,1) 0%, rgba(189,152,43,1) 100%);
+            z-index: 10;
+            opacity: 1;
+        }
+
+        #fachada h1 {
+            font-family: 'Playfair Display', serif;
+            color: #2A2112;
+            font-size: 4rem;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        #fachada .subtitulo {
+            color: #2A2112;
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 50px;
+        }
+
+        #descubrir-btn {
+            color: #2A2112;
+            border-color: #2A2112;
+        }
+
+        #descubrir-btn:hover {
+            background-color: #2A2112;
+            color: #E6C229;
+            transform: scale(1.05);
+        }
+
+        .particulas-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
+        }
+        .particula {
+            position: absolute; opacity: 0; animation: float 10s infinite;
+        }
+        .corazon { color: rgba(255, 230, 230, 0.5); }
+        .flor { color: rgba(255, 245, 220, 0.5); }
+        .hoja { color: rgba(220, 235, 220, 0.5); }
+        @keyframes float {
+            0% { transform: translateY(110vh) translateX(0) scale(0); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(-10vh) translateX(20px) scale(1); opacity: 0; }
+        }
+
+        #texto-container {
+            transition: opacity 0.5s ease;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        #texto-container h2 {
+            font-family: 'Playfair Display', serif;
+            color: #BD982B; font-size: 3.5rem; margin-bottom: 20px;
+        }
+        #texto-container p {
+            color: #333333; font-size: 1.5rem; max-width: 700px; line-height: 2; font-style: italic;
+        }
+
+        .marco-foto {
+            background: white; padding: 15px 15px 40px 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); transform: rotate(-2deg);
+            max-width: 400px; margin-bottom: 20px;
+        }
+        .marco-foto img { width: 100%; height: auto; display: block; }
+        .marco-foto p {
+            font-family: 'Playfair Display', serif; color: #333; font-size: 1.2rem;
+            margin-top: 15px; margin-bottom: 0;
+        }
+
+        #seccion-tulipanes {
+            background: radial-gradient(circle at bottom, #1B2735 0%, #090A0F 100%);
+            overflow: hidden;
+        }
+
+        #cielo-estrellado {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes parpadeo {
+            0% { opacity: 0.2; }
+            100% { opacity: 0.8; box-shadow: 0 0 5px white; }
+        }
+
+        .estrella-fugaz {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(255,255,255,0.1), 0 0 0 8px rgba(255,255,255,0.1), 0 0 20px rgba(255,255,255,1);
+            animation: fugaz 4s linear infinite;
+            opacity: 0;
+        }
+
+        .estrella-fugaz::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, #fff, transparent);
+            right: 0;
+        }
+
+        @keyframes fugaz {
+            0% { transform: translate(0, 0) rotate(-45deg); opacity: 1; }
+            20% { opacity: 0; }
+            100% { transform: translate(-100vw, 100vh) rotate(-45deg); opacity: 0; }
+        }
+
+        .texto-4ever {
+            position: absolute;
+            top: 60px;
+            font-family: 'Lato', sans-serif;
+            color: #FDFBF7;
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: latir 3s infinite alternate;
+            animation-delay: 4.5s;
+            z-index: 20;
+        }
+
+        @keyframes latir {
+            0% { opacity: 0.5; transform: scale(0.95); text-shadow: 0 0 5px rgba(255,255,255,0.3); }
+            100% { opacity: 1; transform: scale(1.05); text-shadow: 0 0 15px rgba(255,255,255,0.8); }
+        }
+
+        .contenedor-ramo {
+            position: relative;
+            width: 300px;
+            height: 450px;
+            margin-bottom: 20px;
+            z-index: 10;
+        }
+
+        #envoltura {
+            position: absolute;
+            bottom: 0;
+            left: 50px;
+            width: 200px;
+            height: 250px;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1.5s ease, transform 1.5s ease;
+        }
+
+        #envoltura.aparecer {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .tulipan-wrapper {
+            position: absolute;
+            width: 100px;
+            height: 350px;
+        }
+
+        .tulipan-svg {
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform-origin: bottom center;
+            transform: scale(0);
+        }
+
+        .brotar {
+            animation: crecer 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes crecer {
+            0% { transform: scale(0) translateY(50px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        #seccion-tulipanes h2 {
+            font-family: 'Playfair Display', serif;
+            color: #E68A9B;
+            font-size: 2.5rem;
+            margin-top: 20px;
+            opacity: 0;
+            z-index: 10;
+            animation: fadeInTexto 2s ease forwards;
+            animation-delay: 4.5s;
+        }
+
+        @keyframes fadeInTexto { to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div id="fachada" class="seccion-pantalla" style="opacity: 1;">
+        <div class="particulas-container" id="contendor-animaciones"></div>
+        <h1>Para Daniela</h1>
+        <p class="subtitulo">Nuestra Primera Gran Etapa</p>
+        <button id="descubrir-btn" class="btn-estilo">DESCUBRIR</button>
+    </div>
+
+    <div id="contenido" class="seccion-pantalla" style="display: none;">
+        <div id="texto-container">
+            <h2 id="titulo-mensaje">Feliz Primer Mes</h2>
+            <p id="parrafo-mensaje">"Este es solo el comienzo de nuestra historia. Cada día a tu lado es un regalo, y quería hacer algo especial para celebrar nuestro primer mes juntos. Te amo muchísimo, Daniela."</p>
+        </div>
+        <button id="siguiente-btn" class="btn-estilo">Siguiente</button>
+    </div>
+
+    <div id="seccion-foto" class="seccion-pantalla" style="display: none;">
+        <div class="marco-foto">
+            <img src="234.jpeg" alt="Daniela y yo">
+            <p>Nuestro primer mes juntos</p>
+        </div>
+        <button id="siguiente-foto-btn" class="btn-estilo">Una última sorpresa...</button>
+    </div>
+
+    <div id="seccion-tulipanes" class="seccion-pantalla" style="display: none;">
+
+        <div id="cielo-estrellado"></div>
+
+        <div class="texto-4ever">DANI Y OSBY 4EVER</div>
+
+        <div class="contenedor-ramo">
+
+            <div class="tulipan-wrapper" style="left: 100px; bottom: 90px; z-index: 1; transform: rotate(0deg);">
+                <svg viewBox="0 0 100 350" class="tulipan-svg" style="animation-delay: 1.0s;">
+                    <path d="M50,350 Q45,200 50,50" stroke="#7A9A70" stroke-width="6" fill="none"/>
+                    <path d="M50,260 Q25,200 15,140 Q35,190 50,230" fill="#7A9A70"/>
+                    <path d="M50,320 Q75,260 85,200 Q65,250 50,290" fill="#7A9A70"/>
+                    <g><path d="M35,40 C35,20 50,10 50,10 C50,10 65,20 65,40 C65,70 50,90 50,90 C50,90 35,70 35,40" fill="#E68A9B"/><path d="M40,45 C35,25 50,15 50,15 C50,15 55,40 50,90 C45,70 40,70 40,45" fill="#F4A6B7"/><path d="M60,45 C65,25 50,15 50,15 C50,15 45,40 50,90 C55,70 60,70 60,45" fill="#FBAEC1"/></g>
+                </svg>
+            </div>
+
+            <div class="tulipan-wrapper" style="left: 45px; bottom: 80px; z-index: 2; transform: rotate(-12deg);">
+                <svg viewBox="0 0 100 350" class="tulipan-svg" style="animation-delay: 1.4s;">
+                    <path d="M50,350 Q45,200 50,50" stroke="#7A9A70" stroke-width="6" fill="none"/>
+                    <path d="M50,260 Q75,200 85,140 Q65,190 50,230" fill="#7A9A70"/>
+                    <g><path d="M35,40 C35,20 50,10 50,10 C50,10 65,20 65,40 C65,70 50,90 50,90 C50,90 35,70 35,40" fill="#D8788C"/><path d="M40,45 C35,25 50,15 50,15 C50,15 55,40 50,90 C45,70 40,70 40,45" fill="#E68A9B"/></g>
+                </svg>
+            </div>
+
+            <div class="tulipan-wrapper" style="left: 155px; bottom: 80px; z-index: 2; transform: rotate(12deg);">
+                <svg viewBox="0 0 100 350" class="tulipan-svg" style="animation-delay: 1.8s;">
+                    <path d="M50,350 Q45,200 50,50" stroke="#7A9A70" stroke-width="6" fill="none"/>
+                    <path d="M50,260 Q25,200 15,140 Q35,190 50,230" fill="#7A9A70"/>
+                    <g><path d="M35,40 C35,20 50,10 50,10 C50,10 65,20 65,40 C65,70 50,90 50,90 C50,90 35,70 35,40" fill="#F4A6B7"/><path d="M60,45 C65,25 50,15 50,15 C50,15 45,40 50,90 C55,70 60,70 60,45" fill="#FBAEC1"/></g>
+                </svg>
+            </div>
+
+            <div class="tulipan-wrapper" style="left: 10px; bottom: 60px; z-index: 3; transform: rotate(-25deg);">
+                <svg viewBox="0 0 100 350" class="tulipan-svg" style="animation-delay: 2.2s;">
+                    <path d="M50,350 Q45,200 50,50" stroke="#7A9A70" stroke-width="6" fill="none"/>
+                    <path d="M50,200 Q30,150 15,100 Q35,140 50,170" fill="#7A9A70"/>
+                    <path d="M50,260 Q75,200 85,140 Q65,190 50,230" fill="#7A9A70"/>
+                    <g><path d="M35,40 C35,20 50,10 50,10 C50,10 65,20 65,40 C65,70 50,90 50,90 C50,90 35,70 35,40" fill="#E68A9B"/><path d="M40,45 C35,25 50,15 50,15 C50,15 55,40 50,90 C45,70 40,70 40,45" fill="#FBAEC1"/></g>
+                </svg>
+            </div>
+
+            <div class="tulipan-wrapper" style="left: 190px; bottom: 60px; z-index: 3; transform: rotate(25deg);">
+                <svg viewBox="0 0 100 350" class="tulipan-svg" style="animation-delay: 2.6s;">
+                    <path d="M50,350 Q45,200 50,50" stroke="#7A9A70" stroke-width="6" fill="none"/>
+                    <path d="M50,200 Q70,150 85,100 Q65,140 50,170" fill="#7A9A70"/>
+                    <path d="M50,260 Q25,200 15,140 Q35,190 50,230" fill="#7A9A70"/>
+                    <g><path d="M35,40 C35,20 50,10 50,10 C50,10 65,20 65,40 C65,70 50,90 50,90 C50,90 35,70 35,40" fill="#D8788C"/><path d="M60,45 C65,25 50,15 50,15 C50,15 45,40 50,90 C55,70 60,70 60,45" fill="#F4A6B7"/></g>
+                </svg>
+            </div>
+
+            <div class="tulipan-wrapper" style="left: 70px; bottom: 50px; z-index: 4; transform: rotate(-5deg);">
+                <svg viewBox="0 0 100 350" class="tulipan-svg" style="animation-delay: 3.0s;">
+                    <path d="M50,350 Q45,200 50,50" stroke="#7A9A70" stroke-width="6" fill="none"/>
+                    <path d="M50,260 Q25,200 15,140 Q35,190 50,230" fill="#7A9A70"/>
+                    <path d="M50,320 Q75,260 85,200 Q65,250 50,290" fill="#7A9A70"/>
+                    <g><path d="M35,40 C35,20 50,10 50,10 C50,10 65,20 65,40 C65,70 50,90 50,90 C50,90 35,70 35,40" fill="#F4A6B7"/><path d="M60,45 C65,25 50,15 50,15 C50,15 45,40 50,90 C55,70 60,70 60,45" fill="#E68A9B"/></g>
+                </svg>
+            </div>
+
+            <div class="tulipan-wrapper" style="left: 130px; bottom: 50px; z-index: 4; transform: rotate(5deg);">
+                <svg viewBox="0 0 100 350" class="tulipan-svg" style="animation-delay: 3.4s;">
+                    <path d="M50,350 Q45,200 50,50" stroke="#7A9A70" stroke-width="6" fill="none"/>
+                    <path d="M50,260 Q75,200 85,140 Q65,190 50,230" fill="#7A9A70"/>
+                    <path d="M50,320 Q25,260 15,200 Q35,250 50,290" fill="#7A9A70"/>
+                    <g><path d="M35,40 C35,20 50,10 50,10 C50,10 65,20 65,40 C65,70 50,90 50,90 C50,90 35,70 35,40" fill="#E68A9B"/><path d="M40,45 C35,25 50,15 50,15 C50,15 55,40 50,90 C45,70 40,70 40,45" fill="#F4A6B7"/></g>
+                </svg>
+            </div>
+
+            <svg id="envoltura" viewBox="0 0 200 250">
+                <path d="M 20,40 Q 100,60 180,40 L 130,230 L 70,230 Z" fill="#D5C5B3" />
+                <path d="M 0,70 L 100,150 L 70,230 Z" fill="#E8D9C8" />
+                <path d="M 200,70 L 100,150 L 130,230 Z" fill="#E8D9C8" />
+                <path d="M -10,110 C 60,160 140,160 210,110 L 140,240 C 120,245 80,245 60,240 Z" fill="#FFF2E0" stroke="#E8D9C8" stroke-width="2"/>
+                <path d="M 65,185 C 100,205 135,185 135,185 L 125,215 C 100,225 75,215 75,215 Z" fill="#EAD5BE"/>
+                <path d="M 65,185 C 100,200 135,185 135,185 L 130,200 C 100,215 70,200 70,200 Z" fill="#D8788C"/>
+                <path d="M 100,192 C 60,150 30,190 95,202 Z" fill="#E68A9B"/>
+                <path d="M 100,192 C 140,150 170,190 105,202 Z" fill="#E68A9B"/>
+                <circle cx="100" cy="198" r="8" fill="#C25A70"/>
+                <path d="M 96,204 C 85,220 70,240 70,240 C 75,240 85,230 92,204 Z" fill="#E68A9B"/>
+                <path d="M 104,204 C 115,220 130,240 130,240 C 125,240 115,230 108,204 Z" fill="#E68A9B"/>
+            </svg>
+        </div>
+
+        <h2>Te amo infinito, Daniela.</h2>
+    </div>
+
+    <audio id="musica-sade" loop>
+        <source src="sade.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+
+        function crearParticulas() {
+            const contenedor = document.getElementById('contendor-animaciones');
+            const numParticulas = 40;
+            const iconos = ['❤', '✿', '❀', '✧'];
+
+            for (let i = 0; i < numParticulas; i++) {
+                const particula = document.createElement('div');
+                particula.classList.add('particula');
+                particula.innerText = iconos[Math.floor(Math.random() * iconos.length)];
+                if (Math.random() > 0.6) particula.classList.add('flor');
+                else if (Math.random() > 0.3) particula.classList.add('corazon');
+                else particula.classList.add('hoja');
+                particula.style.left = Math.random() * 100 + 'vw';
+                particula.style.animationDelay = Math.random() * 8 + 's';
+                particula.style.fontSize = Math.random() * 15 + 10 + 'px';
+                contenedor.appendChild(particula);
+            }
+        }
+
+        function crearCielo() {
+            const cielo = document.getElementById('cielo-estrellado');
+
+            for (let i = 0; i < 120; i++) {
+                const estrella = document.createElement('div');
+                estrella.style.position = 'absolute';
+                estrella.style.left = Math.random() * 100 + 'vw';
+                estrella.style.top = Math.random() * 100 + 'vh';
+                const size = Math.random() * 2.5 + 'px';
+                estrella.style.width = size;
+                estrella.style.height = size;
+                estrella.style.backgroundColor = 'white';
+                estrella.style.borderRadius = '50%';
+                estrella.style.opacity = Math.random();
+
+                if(Math.random() > 0.7) {
+                    estrella.style.animation = `parpadeo ${Math.random() * 3 + 2}s infinite alternate`;
+                }
+                cielo.appendChild(estrella);
+            }
+
+            for (let i = 0; i < 6; i++) {
+                const fugaz = document.createElement('div');
+                fugaz.classList.add('estrella-fugaz');
+                fugaz.style.top = (Math.random() * 50 - 20) + 'vh';
+                fugaz.style.left = (Math.random() * 50 + 50) + 'vw';
+                fugaz.style.animationDelay = Math.random() * 8 + 's';
+                cielo.appendChild(fugaz);
+            }
+        }
+
+        window.onload = function() {
+            crearParticulas();
+            crearCielo();
+        };
+
+        const mensajes = [
+            { titulo: "Feliz Primer Mes", texto: '"Este es solo el comienzo de nuestra historia. Cada día a tu lado es un regalo, y quería hacer algo especial para celebrar nuestro primer mes juntos."' },
+            { titulo: "Nuestras Risas", texto: '"En estos primeros 30 días, tu sonrisa se ha convertido en mi momento favorito del día y tu voz en mi melodía preferida."' },
+            { titulo: "Cada Detalle", texto: '"Me encanta cómo a tu lado las cosas más simples se vuelven aventuras increíbles que quiero repetir mil veces."' },
+            { titulo: "Mi Persona Favorita", texto: '"Poco a poco te has convertido en mi refugio, mi lugar seguro y la persona con la que quiero compartir todo."' },
+            { titulo: "Por Muchos Más", texto: '"Brindo por este primer mes, y por todos los meses, años y momentos que nos quedan por descubrir juntos."' }
+        ];
+
+        let indiceActual = 0;
+
+        const fachada = document.getElementById('fachada');
+        const contenido = document.getElementById('contenido');
+        const seccionFoto = document.getElementById('seccion-foto');
+        const seccionTulipanes = document.getElementById('seccion-tulipanes');
+        const musica = document.getElementById('musica-sade');
+
+        const textoContainer = document.getElementById('texto-container');
+        const tituloMensaje = document.getElementById('titulo-mensaje');
+        const parrafoMensaje = document.getElementById('parrafo-mensaje');
+        const btnSiguiente = document.getElementById('siguiente-btn');
+        const btnSiguienteFoto = document.getElementById('siguiente-foto-btn');
+        const envoltura = document.getElementById('envoltura');
+
+        document.getElementById('descubrir-btn').addEventListener('click', function() {
+            musica.play();
+            fachada.style.opacity = '0';
+            setTimeout(() => {
+                fachada.style.display = 'none';
+                contenido.style.display = 'flex';
+                setTimeout(() => { contenido.style.opacity = '1'; }, 50);
+            }, 1000);
+        });
+
+        btnSiguiente.addEventListener('click', function() {
+            if (indiceActual < mensajes.length - 1) {
+                textoContainer.style.opacity = '0';
+                setTimeout(() => {
+                    indiceActual++;
+                    tituloMensaje.innerText = mensajes[indiceActual].titulo;
+                    parrafoMensaje.innerText = mensajes[indiceActual].texto;
+                    if (indiceActual === mensajes.length - 1) {
+                        btnSiguiente.innerText = "Ver nuestra foto";
+                    }
+                    textoContainer.style.opacity = '1';
+                }, 500);
+            } else {
+                contenido.style.opacity = '0';
+                setTimeout(() => {
+                    contenido.style.display = 'none';
+                    seccionFoto.style.display = 'flex';
+                    setTimeout(() => { seccionFoto.style.opacity = '1'; }, 50);
+                }, 1000);
+            }
+        });
+
+        btnSiguienteFoto.addEventListener('click', function() {
+            seccionFoto.style.opacity = '0';
+            setTimeout(() => {
+                seccionFoto.style.display = 'none';
+                seccionTulipanes.style.display = 'flex';
+
+                setTimeout(() => {
+                    seccionTulipanes.style.opacity = '1';
+
+                    envoltura.classList.add('aparecer');
+
+                    setTimeout(() => {
+                        const tulipanes = document.querySelectorAll('.tulipan-svg');
+                        tulipanes.forEach(t => t.classList.add('brotar'));
+                    }, 800);
+
+                }, 50);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
